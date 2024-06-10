@@ -2,7 +2,7 @@
 ## Title: |TInterface/Addons/AutoGrats/Ressources/Images/logo:16:16|t AutoGrats
 ## Notes: Will automatically congratulate party members when they level up
 ## Author: Romanov
-## Version: 3.0.1
+## Version: 4.0.0
 ## SavedVariables: autoGratsSavedData
 
 AutoGrats.lua

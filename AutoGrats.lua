@@ -5,7 +5,7 @@ local autoGratsPlayerTracker = {}
 local autoGratsGuildPlayerTracker = {}
 local delayInSeconds = 1 -- Adjust the delay as needed
 
-local addon_version = "4.0.0"
+local addon_version = "4.0.1"
 
 local levelupSoundEffects = {
     {
@@ -59,8 +59,14 @@ end
 local function handleGuildRosterUpdate()
     GuildRoster()
     local _guildMembers = GetGuildMembers()
-
+    local player_name = UnitName("player") .. "-" .. GetRealmName()
     for name, level in pairs(_guildMembers) do
+        if not autoGratsGuildPlayerTracker[name] then
+            autoGratsGuildPlayerTracker[name] = level
+        end
+        if name == player_name then
+            return
+        end
         if autoGratsGuildPlayerTracker[name] < _guildMembers[name] then
             local level_modulo = math.fmod(_guildMembers[name], autoGratsSavedData["guildGratsLevelInterval"])
             if(level_modulo == 0) then

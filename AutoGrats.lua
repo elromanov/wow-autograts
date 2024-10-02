@@ -5,7 +5,7 @@ local autoGratsPlayerTracker = {}
 local autoGratsGuildPlayerTracker = {}
 local delayInSeconds = 1 -- Adjust the delay as needed
 
-local addon_version = "4.0.1"
+local addon_version = "4.0.2"
 
 local levelupSoundEffects = {
     {
@@ -33,6 +33,8 @@ local levelupSoundEffects = {
         path = "Interface\\AddOns\\AutoGrats\\Ressources\\Sounds\\levelup-wow-2.mp3"
     }
 }
+
+local autograts_settings_category = nil
 
 frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("GROUP_ROSTER_UPDATE")
@@ -140,8 +142,6 @@ local function CheckPlayerLevelDelayed(unitName)
                 msg_to_send = "GRATS " .. unitName .. " !!!!"
             end
 
-            --SendChatMessage(msg_to_send, "PARTY")
-            --SendChatMessage(msg_to_send, "YELL")
             if(autoGratsSavedData["usePartyChat"] == true) then
                 SendChatMessage(msg_to_send, "PARTY")
             end
@@ -169,10 +169,14 @@ end
 
 local function CreateSettingsPage()
     -- Settings page
-    local optionsPanel = CreateFrame("Frame", "AutoGratsOptionsPanel", InterfaceOptionsFramePanelContainer)
-    optionsPanel.name = "|TInterface/Addons/AutoGrats/Ressources/Images/logo:16:16|t AutoGrats"
 
-    InterfaceOptions_AddCategory(optionsPanel)
+    local optionsPanel = CreateFrame("Frame", "AutoGratsOptionsPanel", UIParent)
+    optionsPanel.name = "AutoGrats"
+
+    -- Register with the new settings API
+    autograts_settings_category = Settings.RegisterCanvasLayoutCategory(optionsPanel, "|TInterface/Addons/AutoGrats/Ressources/Images/logo:16:16|t AutoGrats")
+    autograts_settings_category.ID = "AutoGratsOptionsPanel";
+    Settings.RegisterAddOnCategory(autograts_settings_category)
 
     local title = optionsPanel:CreateFontString("AutoGrats", nil, "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", 10, -10)
@@ -183,7 +187,7 @@ local function CreateSettingsPage()
     addonVersionAndAuthor:SetText("Version " .. addon_version .. " by Romanov")
     addonVersionAndAuthor:SetTextColor(1,1,1)
 
-    local customMessageCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "OptionsCheckButtonTemplate")
+    local customMessageCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "ChatConfigCheckButtonTemplate")
     customMessageCheckbox:SetPoint("TOPLEFT", 10, -50)
     customMessageCheckbox.text = customMessageCheckbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     customMessageCheckbox.text:SetPoint("LEFT", customMessageCheckbox, "RIGHT", 5, 0)
@@ -193,7 +197,7 @@ local function CreateSettingsPage()
         customMessageCheckbox:SetChecked(true)
     end
 
-    local useSoundCheckbox = CreateFrame("CheckButton", "AutoGratsEnableSoundCheckbox", optionsPanel, "OptionsCheckButtonTemplate")
+    local useSoundCheckbox = CreateFrame("CheckButton", "AutoGratsEnableSoundCheckbox", optionsPanel, "ChatConfigCheckButtonTemplate")
     useSoundCheckbox:SetPoint("TOPLEFT", 180, -50)
     useSoundCheckbox.text = useSoundCheckbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     useSoundCheckbox.text:SetPoint("LEFT", useSoundCheckbox, "RIGHT", 5, 0)
@@ -216,10 +220,14 @@ local function CreateSettingsPage()
     messageEditBox:SetFontObject(ChatFontNormal)
     messageEditBox:EnableMouse(true)
     messageEditBox:SetPoint("TOPLEFT", 11, -86)
-
-    if(autoGratsSavedData["message"]) then
+    
+    -- Set text after creation
+    if autoGratsSavedData and autoGratsSavedData["message"] then
         messageEditBox:SetText(autoGratsSavedData["message"])
     end
+
+    messageEditBox:SetCursorPosition(0)
+
 
     local messageEditBoxInfo = optionsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     messageEditBoxInfo:SetPoint("TOPLEFT", 11, -125)
@@ -251,31 +259,29 @@ local function CreateSettingsPage()
 
     -- checkboxes for chat channels
 
-        -- party chat  
-
-    local enablePartyChatCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "OptionsCheckButtonTemplate")
+    local enablePartyChatCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "ChatConfigCheckButtonTemplate")
     enablePartyChatCheckbox:SetPoint("TOPLEFT", 10, -200)
     enablePartyChatCheckbox.text = enablePartyChatCheckbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     enablePartyChatCheckbox.text:SetPoint("LEFT", enablePartyChatCheckbox, "RIGHT", 5, 0)
     enablePartyChatCheckbox.text:SetText("Party chat")
 
-        -- instance chat
-    local enableInstanceChatCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "OptionsCheckButtonTemplate")
+    -- instance chat
+    local enableInstanceChatCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "ChatConfigCheckButtonTemplate")
     enableInstanceChatCheckbox:SetPoint("TOPLEFT", 150, -200)
     enableInstanceChatCheckbox.text = enableInstanceChatCheckbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     enableInstanceChatCheckbox.text:SetPoint("LEFT", enableInstanceChatCheckbox, "RIGHT", 5, 0)
     enableInstanceChatCheckbox.text:SetText("Instance chat")
 
 
-        -- say chat
-    local enableSayChatCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "OptionsCheckButtonTemplate")
+    -- say chat
+    local enableSayChatCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "ChatConfigCheckButtonTemplate")
     enableSayChatCheckbox:SetPoint("TOPLEFT", 150, -230)
     enableSayChatCheckbox.text = enableSayChatCheckbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     enableSayChatCheckbox.text:SetPoint("LEFT", enableSayChatCheckbox, "RIGHT", 5, 0)
     enableSayChatCheckbox.text:SetText("Say chat")
 
-        -- yell chat
-    local enableYellChatCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "OptionsCheckButtonTemplate")
+    -- yell chat
+    local enableYellChatCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "ChatConfigCheckButtonTemplate")
     enableYellChatCheckbox:SetPoint("TOPLEFT", 10, -230)
     enableYellChatCheckbox.text = enableYellChatCheckbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     enableYellChatCheckbox.text:SetPoint("LEFT", enableYellChatCheckbox, "RIGHT", 5, 0)
@@ -350,7 +356,7 @@ local function CreateSettingsPage()
     guildOptionsTitle:SetPoint("TOPLEFT", 10, -330)
     guildOptionsTitle:SetText("Guild settings")
 
-    local enableGuildGrats = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "OptionsCheckButtonTemplate")
+    local enableGuildGrats = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "ChatConfigCheckButtonTemplate")
     enableGuildGrats:SetPoint("TOPLEFT", 10, -350)
     enableGuildGrats.text = enableGuildGrats:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     enableGuildGrats.text:SetPoint("LEFT", enableGuildGrats, "RIGHT", 5, 0)
@@ -371,40 +377,34 @@ local function CreateSettingsPage()
     guildGratsLevelIntervalTitle:SetText("Level interval for guild grats messages")
 
     --slider
-    local slider = CreateFrame("Slider", "AutoGratsSlider", optionsPanel, "OptionsSliderTemplate")
-    slider:SetWidth(200)
-    slider:SetHeight(20)
-    slider:SetPoint("TOPLEFT", 10, -410)
-    slider:SetMinMaxValues(1, 10)
-    slider:SetValueStep(1)
-    slider:SetObeyStepOnDrag(true)
-    slider:SetValue(autoGratsSavedData["guildGratsLevelInterval"])
-
-    slider:SetScript("OnValueChanged", function(self, value)
-        self.Text:SetText("Level interval: " .. math.floor(value))
-        autoGratsSavedData["guildGratsLevelInterval"] = math.floor(value)
-    end)
-
-    _G[slider:GetName() .. 'Low']:SetText("1")
-    _G[slider:GetName() .. 'High']:SetText("10")
-    _G[slider:GetName() .. 'Text']:SetText("Level interval: " .. autoGratsSavedData["guildGratsLevelInterval"])
+    local right = MinimalSliderWithSteppersMixin.Label.Right
+    local formatters = {}
+    formatters[right] = CreateMinimalSliderFormatter(right, FormatPercentageRound)
     
-    local sliderText = _G[slider:GetName() .. 'Text']
-    sliderText:ClearAllPoints()
-    sliderText:SetPoint("TOP", slider, "BOTTOM", 0, 0)  -- Adjust the second value for vertical spacing
-    sliderText:SetText('Level interval: ' .. slider:GetValue())
+    local slider = CreateFrame("Slider", "AutoGratsSlider", optionsPanel, "MinimalSliderWithSteppersTemplate")
+    slider:Init(1, 1, 10, 9, formatters)
+    
+    slider:SetMinMaxValues(1, 10)
+    slider:SetPoint("TOPLEFT", 10, -418)
+    slider:SetHeight(26)
+    
+    -- Set the value manually since SetValueStep is not working
+    local stepValue = 1
+    
+    -- Register the OnValueChanged callback
+    local function OnValueChanged(self, value)
+        local steppedValue = math.floor((value + (stepValue / 2)) / stepValue) * stepValue
+        autoGratsSavedData["guildGratsLevelInterval"] = steppedValue -- doesn't update
+    end
+    
+    -- Register the custom callback for MinimalSliderWithSteppersMixin
+    slider:RegisterCallback(MinimalSliderWithSteppersMixin.Event.OnValueChanged, OnValueChanged)
+    
+    -- Initialize the slider's value
+    slider:SetValue(autoGratsSavedData["guildGratsLevelInterval"] or 5)
 
-    slider:SetScript("OnEnter", function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:SetText("Drag to set the value", nil, nil, nil, nil, true)
-        GameTooltip:Show()
-    end)
-    slider:SetScript("OnLeave", function(self)
-        GameTooltip:Hide()
-    end)
 
-    --todo
-    local customGuildMessageCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "OptionsCheckButtonTemplate")
+    local customGuildMessageCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", optionsPanel, "ChatConfigCheckButtonTemplate")
     customGuildMessageCheckbox:SetPoint("TOPLEFT", 10, -450)
     customGuildMessageCheckbox.text = customGuildMessageCheckbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     customGuildMessageCheckbox.text:SetPoint("LEFT", customGuildMessageCheckbox, "RIGHT", 5, 0)
@@ -430,6 +430,8 @@ local function CreateSettingsPage()
     if(autoGratsSavedData["guildMessage"]) then
         guildMessageEditBox:SetText(autoGratsSavedData["guildMessage"])
     end
+
+    guildMessageEditBox:SetCursorPosition(0)
 
     local guildMessageEditBoxInfo = optionsPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     guildMessageEditBoxInfo:SetPoint("TOPLEFT", 11, -520)
@@ -466,6 +468,7 @@ local function CreateSettingsPage()
     discordLink:EnableMouse(true)
     discordLink:SetPoint("TOPRIGHT", -9, -10)
     discordLink:SetText("discord.gg/hyhWd6DdUj")
+    discordLink:SetCursorPosition(0)
     
 
     -- Managing events
@@ -574,7 +577,6 @@ local function CreateSettingsPage()
         messageEditBox:ClearFocus()
     end)
 
-    --todo
     saveGuildButton:SetScript("OnClick", function(self, button, down)
         local editBoxText = guildMessageEditBox:GetText()
         if(string.len(editBoxText) >= 1) then
@@ -695,7 +697,7 @@ SLASH_OPENSETTINGS1 = "/autograts"
 SLASH_OPENSETTINGS2 = "/gz"
 
 local function OpenSettingsTab()
-    InterfaceOptionsFrame_OpenToCategory("|TInterface/Addons/AutoGrats/Ressources/Images/logo:16:16|t AutoGrats")
+    Settings.OpenToCategory("AutoGratsOptionsPanel")
 end
 
 SlashCmdList["OPENSETTINGS"] = OpenSettingsTab;

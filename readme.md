@@ -2,8 +2,8 @@
 
 AutoGrats is a handy World of Warcraft Classic addon designed to make leveling up in a party an even more enjoyable experience. This addon automatically congratulates party members when they level up. Say goodbye to manual grats and hello to automated celebrations! When a fellow party member reaches a new level, AutoGrats sends cheerful congratulations both in the party chat and the local yell chat, making the journey through Azeroth more social and exciting. Stay in high spirits as you level up together with the AutoGrats addon.
 
-# New Features
-- Added a new feature that allows you to congratulate guild members on their level-up achievements. This new feature is highly customizable and can be enabled or disabled in the addon settings page accessible in game options (addons section -> AutoGrats) or by using /gz or /autograts commands.
+# Last update
+Addon is now compliant with the latest version of World of Warcraft API. Rewrote the code to work with the new API and fixed some bugs that were present in the previous version.
 
 # Features
 
@@ -19,4 +19,4 @@ AutoGrats is a handy World of Warcraft Classic addon designed to make leveling u
 ---
 Celebrate your victories together with AutoGrats and share the joy of leveling up in World of Warcraft Classic. Download now and start the party!
 
-### Last Updated: 10th of June, 2024.
+### Last Updated: 2nd of October, 2024.

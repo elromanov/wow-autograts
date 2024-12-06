@@ -6,4 +6,8 @@
 ## SavedVariables: autoGratsSavedData
 
 AutoGrats.lua
-AutoGratsSettings.xml
+Modules/AutoGrats_Sound.lua
+Modules/AutoGrats_Guild.lua
+Modules/AutoGrats_Party.lua
+Modules/AutoGrats_Settings.lua
+Core/AutoGrats_Core.lua

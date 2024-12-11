@@ -15,7 +15,6 @@ frame:RegisterEvent("UNIT_LEVEL")
 frame:RegisterEvent("PLAYER_LOGOUT")
 frame:RegisterEvent("GUILD_ROSTER_UPDATE")
 
-
 if not autoGratsSavedData then
     autoGratsSavedData = {}
 end

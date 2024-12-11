@@ -1,5 +1,14 @@
 DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[AutoGrats] Loading settings module...")
 
+function CreateSettingsCategory()
+    local mainPanel = CreateFrame("Frame", "AutoGratsMainPanel", UIParent)
+    mainPanel.name = "AutoGrats"
+
+    -- Create a main category for your addon
+    AutoGrats.mainCategory = Settings.RegisterCanvasLayoutCategory(mainPanel, "AutoGrats")
+    Settings.RegisterAddOnCategory(AutoGrats.mainCategory)
+end
+
 function CreateSettingsPage()
     -- Settings page
 

@@ -35,7 +35,9 @@ frame:SetScript("OnEvent", function(self, event, arg1)
             autoGratsSavedData["message"] = "Gz, [username] !"
         end
 
+        -- CreateSettingsCategory()
         CreateSettingsPage()
+        
         if(autoGratsSavedData["useGuildGrats"] == true) then
             GuildRoster()
             autoGratsGuildPlayerTracker = GetGuildMembers()

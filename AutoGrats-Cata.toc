@@ -1,4 +1,4 @@
-## Interface: 40400
+## Interface: 40401
 ## Title: |TInterface/Addons/AutoGrats/Ressources/Images/logo:16:16|t AutoGrats
 ## Notes: Will automatically congratulate party members when they level up
 ## Author: Romanov

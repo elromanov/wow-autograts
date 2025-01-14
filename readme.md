@@ -19,4 +19,4 @@ Addon is now compliant with the latest version of World of Warcraft API. Rewrote
 ---
 Celebrate your victories together with AutoGrats and share the joy of leveling up in World of Warcraft Classic. Download now and start the party!
 
-### Last Updated: 2nd of October, 2024.
+### Last Updated: 14th of January, 2025.

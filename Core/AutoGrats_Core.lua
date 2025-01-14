@@ -1,4 +1,4 @@
-frame:SetScript("OnEvent", function(self, event, arg1)
+autogratsFrame:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" and addon_loaded == false then
         self:UnregisterEvent("ADDON_LOADED")
         DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[AutoGrats] Core module loading...")
@@ -38,11 +38,11 @@ frame:SetScript("OnEvent", function(self, event, arg1)
         -- CreateSettingsCategory()
         CreateSettingsPage()
         
-        if(autoGratsSavedData["useGuildGrats"] == true) then
-            GuildRoster()
-            autoGratsGuildPlayerTracker = GetGuildMembers()
-            StartGuildRosterCheckTimer()
-        end
+        -- if(autoGratsSavedData["useGuildGrats"] == true) then
+        --     C_GuildInfo.GuildRoster()
+        --     autoGratsGuildPlayerTracker = GetGuildMembers()
+        --     StartGuildRosterCheckTimer()
+        -- end
 
         DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[AutoGrats] Addon successfully loaded!")
         DEFAULT_CHAT_FRAME:AddMessage("|cffedcd4e[AutoGrats] Settings are available in game options, you can also access AutoGrats settings with |cff00ff00/gz |cffedcd4eand |cff00ff00/autograts |cffedcd4ecommands")

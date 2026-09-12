@@ -1,5 +1,5 @@
 autogratsFrame:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" and addon_loaded == false then
+    if event == "ADDON_LOADED" and arg1 == AutoGrats.addonName and addon_loaded == false then
         self:UnregisterEvent("ADDON_LOADED")
         DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[AutoGrats] Core module loading...")
 
@@ -35,19 +35,56 @@ autogratsFrame:SetScript("OnEvent", function(self, event, arg1)
             autoGratsSavedData["message"] = "Gz, [username] !"
         end
 
-        -- CreateSettingsCategory()
+        if(autoGratsSavedData["useRandomMessageForParty"] == nil) then
+            autoGratsSavedData["useRandomMessageForParty"] = false
+        end
+
+        if(autoGratsSavedData["useRandomMessageForGuild"] == nil) then
+            autoGratsSavedData["useRandomMessageForGuild"] = false
+        end
+
+        if(autoGratsSavedData["useMilestoneMessageForParty"] == nil) then
+            autoGratsSavedData["useMilestoneMessageForParty"] = false
+        end
+
+        if(autoGratsSavedData["useMilestoneMessageForGuild"] == nil) then
+            autoGratsSavedData["useMilestoneMessageForGuild"] = false
+        end
+
+        if(autoGratsSavedData["randomMessages"] == nil) then 
+            autoGratsSavedData["randomMessages"] = {}
+        end
+
+        if(autoGratsSavedData["milestoneMessages"] == nil) then 
+            autoGratsSavedData["milestoneMessages"] = {}
+        end
+
+        for id, msg in pairs(autoGratsSavedData["milestoneMessages"]) do
+            print(id, msg)
+        end
+
+        autoGratsSavedData.guildWelcomeHistory = autoGratsSavedData.guildWelcomeHistory or {}
+        if autoGratsSavedData.useGuildWelcomeMessage == nil then
+            autoGratsSavedData.useGuildWelcomeMessage = false
+        end
+        autoGratsSavedData.guildWelcomeMessage = autoGratsSavedData.guildWelcomeMessage
+            or "Welcome to the guild, [username]!"
+
+        AutoGrats.guildPlayerTracker = {}
+        autoGratsGuildPlayerTracker = AutoGrats.guildPlayerTracker
+        guildRosterInitialized = false
+
+        if IsInGuild() then
+            C_GuildInfo.GuildRoster()
+        end
+
         CreateSettingsPage()
-        
-        -- if(autoGratsSavedData["useGuildGrats"] == true) then
-        --     C_GuildInfo.GuildRoster()
-        --     autoGratsGuildPlayerTracker = GetGuildMembers()
-        --     StartGuildRosterCheckTimer()
-        -- end
 
         DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[AutoGrats] Addon successfully loaded!")
         DEFAULT_CHAT_FRAME:AddMessage("|cffedcd4e[AutoGrats] Settings are available in game options, you can also access AutoGrats settings with |cff00ff00/gz |cffedcd4eand |cff00ff00/autograts |cffedcd4ecommands")
         
         addon_loaded = true
+        handleGuildRosterUpdate()
     elseif event == "UNIT_LEVEL" then
         local unitName = UnitName(arg1)
         local unitIsPlayer = UnitIsPlayer(arg1)
@@ -89,18 +126,15 @@ autogratsFrame:SetScript("OnEvent", function(self, event, arg1)
     end
 end)
 
--- local function test()
---     PlayLevelUpSound()
--- end
-
--- SLASH_TEST1 = "/test"
--- SlashCmdList["TEST"] = test;
-
 SLASH_OPENSETTINGS1 = "/autograts"
 SLASH_OPENSETTINGS2 = "/gz"
 
 local function OpenSettingsTab()
-    Settings.OpenToCategory("AutoGratsOptionsPanel")
+    if AutoGrats_PartySettingsCategory then
+        Settings.OpenToCategory(AutoGrats_PartySettingsCategory:GetID())
+    else
+        Settings.OpenToCategory(autograts_settings_category:GetID())
+    end
 end
 
 SlashCmdList["OPENSETTINGS"] = OpenSettingsTab;

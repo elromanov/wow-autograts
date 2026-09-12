@@ -11,7 +11,34 @@ function CheckPlayerLevelDelayed(unitName)
 
             local msg_to_send = ""
 
-            if autoGratsSavedData["message"] and autoGratsSavedData["useCustomMessage"] == true then
+            if(autoGratsSavedData["useMilestoneMessageForParty"] and autoGratsSavedData["milestoneMessages"][unitLevel]) then
+                msg_to_send = autoGratsSavedData["milestoneMessages"][unitLevel]
+                local userNameStringPresent = string.find(msg_to_send, "%[username]")
+                local userLevelStringPresent = string.find(msg_to_send, "%[lvl]")
+
+                if userNameStringPresent then
+                    msg_to_send = string.gsub(msg_to_send, "%[username]", unitName)
+                end
+
+                if userLevelStringPresent then
+                    msg_to_send = string.gsub(msg_to_send, "%[lvl]", unitLevel)
+                end
+            elseif(autoGratsSavedData["useRandomMessageForParty"] and #autoGratsSavedData["randomMessages"] > 0) then
+                local randomIndex = math.random(1, #autoGratsSavedData["randomMessages"])
+                local randomGzMessage = autoGratsSavedData["randomMessages"][randomIndex]
+
+                msg_to_send = randomGzMessage
+                local userNameStringPresent = string.find(msg_to_send, "%[username]")
+                local userLevelStringPresent = string.find(msg_to_send, "%[lvl]")
+
+                if userNameStringPresent then
+                    msg_to_send = string.gsub(msg_to_send, "%[username]", unitName)
+                end
+
+                if userLevelStringPresent then
+                    msg_to_send = string.gsub(msg_to_send, "%[lvl]", unitLevel)
+                end
+            elseif autoGratsSavedData["message"] and autoGratsSavedData["useCustomMessage"] == true then
                 msg_to_send = autoGratsSavedData["message"]
 
                 local userNameStringPresent = string.find(msg_to_send, "%[username]")

@@ -59,16 +59,30 @@ autogratsFrame:SetScript("OnEvent", function(self, event, arg1)
             autoGratsSavedData["milestoneMessages"] = {}
         end
 
-        for id, msg in pairs(autoGratsSavedData["milestoneMessages"]) do
-            print(id, msg)
-        end
-
         autoGratsSavedData.guildWelcomeHistory = autoGratsSavedData.guildWelcomeHistory or {}
         if autoGratsSavedData.useGuildWelcomeMessage == nil then
             autoGratsSavedData.useGuildWelcomeMessage = false
         end
-        autoGratsSavedData.guildWelcomeMessage = autoGratsSavedData.guildWelcomeMessage
-            or "Welcome to the guild, [username]!"
+
+        if autoGratsSavedData.defaultGuildWelcomeMessage == nil then
+            autoGratsSavedData.defaultGuildWelcomeMessage = "Welcome to the guild [username] :)"
+        end
+
+        if autoGratsSavedData.guildWelcomeMessage == nil then
+            autoGratsSavedData.guildWelcomeMessage = autoGratsSavedData.guildWelcomeMessage or autoGratsSavedData.defaultGuildWelcomeMessage
+        end
+
+        if autoGratsSavedData.useCustomGuildWelcomeMessages == nil then
+            autoGratsSavedData.useCustomGuildWelcomeMessages = false
+        end
+
+        if autoGratsSavedData.customGuildWelcomeMessages == nil then
+            autoGratsSavedData.customGuildWelcomeMessages = {}
+        end
+
+        if autoGratsSavedData.useRandomWelcomeMessage == nil then
+            autoGratsSavedData.useRandomWelcomeMessage = false
+        end
 
         AutoGrats.guildPlayerTracker = {}
         autoGratsGuildPlayerTracker = AutoGrats.guildPlayerTracker

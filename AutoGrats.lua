@@ -12,7 +12,7 @@ AutoGrats.addonName = ...
 AutoGrats.guildPlayerTracker = {}
 autoGratsGuildPlayerTracker = AutoGrats.guildPlayerTracker
 
-addon_version = "4.0.5"
+addon_version = "5.0.0"
 
 autograts_settings_category = nil
 

@@ -409,70 +409,70 @@ function CreateGuildSettingsSubcategory(frame)
     -- guild welcome message section
     --todo move that part to its own submenu
 
-    -- startPosition = startPosition -20
+    startPosition = startPosition -20
 
-    -- local guildWelcomeMessageEditBoxTitle = fSubCatGuild:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    -- guildWelcomeMessageEditBoxTitle:SetPoint("TOPLEFT", 11, startPosition)
-    -- guildWelcomeMessageEditBoxTitle:SetText("Automatic welcome message")
+    local guildWelcomeMessageEditBoxTitle = fSubCatGuild:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    guildWelcomeMessageEditBoxTitle:SetPoint("TOPLEFT", 11, startPosition)
+    guildWelcomeMessageEditBoxTitle:SetText("Automatic welcome message")
 
-    -- startPosition = startPosition -20
+    startPosition = startPosition -20
 
-    -- local enableGuildWelcomeCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", fSubCatGuild, "ChatConfigCheckButtonTemplate")
-    -- enableGuildWelcomeCheckbox:SetPoint("TOPLEFT", 10, startPosition)
-    -- enableGuildWelcomeCheckbox.text = enableGuildWelcomeCheckbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    -- enableGuildWelcomeCheckbox.text:SetPoint("LEFT", enableGuildWelcomeCheckbox, "RIGHT", 5, 0)
-    -- enableGuildWelcomeCheckbox.text:SetText("Enable automatic welcome message for new guild members")
+    local enableGuildWelcomeCheckbox = CreateFrame("CheckButton", "AutoGratsEnableCheckbox", fSubCatGuild, "ChatConfigCheckButtonTemplate")
+    enableGuildWelcomeCheckbox:SetPoint("TOPLEFT", 10, startPosition)
+    enableGuildWelcomeCheckbox.text = enableGuildWelcomeCheckbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    enableGuildWelcomeCheckbox.text:SetPoint("LEFT", enableGuildWelcomeCheckbox, "RIGHT", 5, 0)
+    enableGuildWelcomeCheckbox.text:SetText("Enable automatic welcome message for new guild members")
 
-    -- if(autoGratsSavedData["useGuildWelcomeMessage"] == true) then
-    --     enableGuildWelcomeCheckbox:SetChecked(true)
-    -- end
+    if(autoGratsSavedData["useGuildWelcomeMessage"] == true) then
+        enableGuildWelcomeCheckbox:SetChecked(true)
+    end
 
-    -- startPosition = startPosition - 30
+    startPosition = startPosition - 30
 
-    -- local guildWelcomeMessageEditBoxTitle = fSubCatGuild:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    -- guildWelcomeMessageEditBoxTitle:SetPoint("TOPLEFT", 11, startPosition)
-    -- guildWelcomeMessageEditBoxTitle:SetText("Custom welcome message")
+    local guildWelcomeMessageEditBoxTitle = fSubCatGuild:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    guildWelcomeMessageEditBoxTitle:SetPoint("TOPLEFT", 11, startPosition)
+    guildWelcomeMessageEditBoxTitle:SetText("Custom welcome message")
 
-    -- local guildWelcomeMessageEditBox = CreateFrame("EditBox", "AutoGratsMessageEditBox", fSubCatGuild, "InputBoxTemplate")
-    -- guildWelcomeMessageEditBox:SetMultiLine(false)
-    -- guildWelcomeMessageEditBox:SetAutoFocus(false)
-    -- guildWelcomeMessageEditBox:SetWidth(300)
-    -- guildWelcomeMessageEditBox:SetHeight(50)
-    -- guildWelcomeMessageEditBox:SetFontObject(ChatFontNormal)
-    -- guildWelcomeMessageEditBox:EnableMouse(true)
-    -- guildWelcomeMessageEditBox:SetPoint("TOPLEFT", 11, startPosition)
+    local guildWelcomeMessageEditBox = CreateFrame("EditBox", "AutoGratsMessageEditBox", fSubCatGuild, "InputBoxTemplate")
+    guildWelcomeMessageEditBox:SetMultiLine(false)
+    guildWelcomeMessageEditBox:SetAutoFocus(false)
+    guildWelcomeMessageEditBox:SetWidth(300)
+    guildWelcomeMessageEditBox:SetHeight(50)
+    guildWelcomeMessageEditBox:SetFontObject(ChatFontNormal)
+    guildWelcomeMessageEditBox:EnableMouse(true)
+    guildWelcomeMessageEditBox:SetPoint("TOPLEFT", 11, startPosition)
 
-    -- if(autoGratsSavedData["guildWelcomeMessage"]) then
-    --     guildWelcomeMessageEditBox:SetText(autoGratsSavedData["guildWelcomeMessage"])
-    -- end
+    if(autoGratsSavedData["guildWelcomeMessage"]) then
+        guildWelcomeMessageEditBox:SetText(autoGratsSavedData["guildWelcomeMessage"])
+    end
 
-    -- guildWelcomeMessageEditBox:SetCursorPosition(0)
+    guildWelcomeMessageEditBox:SetCursorPosition(0)
 
-    -- startPosition = startPosition - 40
+    startPosition = startPosition - 40
 
-    -- local guildWelcomeMessageEditBoxInfo = fSubCatGuild:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    -- guildWelcomeMessageEditBoxInfo:SetPoint("TOPLEFT", 11, startPosition)
-    -- guildWelcomeMessageEditBoxInfo:SetTextColor(1,1,1)
-    -- guildWelcomeMessageEditBoxInfo:SetText("|cffedcd4eTip:|cffffffff You can write |cff00ff00[username]|cffffffff to include username in your welcome message !")
+    local guildWelcomeMessageEditBoxInfo = fSubCatGuild:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    guildWelcomeMessageEditBoxInfo:SetPoint("TOPLEFT", 11, startPosition)
+    guildWelcomeMessageEditBoxInfo:SetTextColor(1,1,1)
+    guildWelcomeMessageEditBoxInfo:SetText("|cffedcd4eTip:|cffffffff You can write |cff00ff00[username]|cffffffff to include username in your welcome message !")
 
-    -- startPosition = startPosition - 17
-    -- local saveGuildWelcomeButton = CreateFrame("Button", "customMessageSaveButton", fSubCatGuild, "UIPanelButtonTemplate")
-    -- saveGuildWelcomeButton:SetPoint("TOPLEFT", 5, startPosition)
-    -- saveGuildWelcomeButton:SetSize(75, 25)
-    -- saveGuildWelcomeButton:SetText("Save")
+    startPosition = startPosition - 17
+    local saveGuildWelcomeButton = CreateFrame("Button", "customMessageSaveButton", fSubCatGuild, "UIPanelButtonTemplate")
+    saveGuildWelcomeButton:SetPoint("TOPLEFT", 5, startPosition)
+    saveGuildWelcomeButton:SetSize(75, 25)
+    saveGuildWelcomeButton:SetText("Save")
 
-    -- local resetGuildWelcomeButton = CreateFrame("Button", "customMessageResetButton", fSubCatGuild, "UIPanelButtonTemplate")
-    -- resetGuildWelcomeButton:SetPoint("TOPLEFT", 85, startPosition)
-    -- resetGuildWelcomeButton:SetSize(75, 25)
-    -- resetGuildWelcomeButton:SetText("Reset")
+    local resetGuildWelcomeButton = CreateFrame("Button", "customMessageResetButton", fSubCatGuild, "UIPanelButtonTemplate")
+    resetGuildWelcomeButton:SetPoint("TOPLEFT", 85, startPosition)
+    resetGuildWelcomeButton:SetSize(75, 25)
+    resetGuildWelcomeButton:SetText("Reset")
 
-    -- startPosition = startPosition - 28
+    startPosition = startPosition - 28
 
-    -- local guildWelcomeErrorMessage = fSubCatGuild:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    -- guildWelcomeErrorMessage:SetPoint("TOPLEFT", 11, startPosition)
-    -- guildWelcomeErrorMessage:SetText("[Message not saved] Invalid message. Message length must be at least 1 character.")
-    -- guildWelcomeErrorMessage:SetTextColor(1, 0, 0)
-    -- guildWelcomeErrorMessage:Hide()
+    local guildWelcomeErrorMessage = fSubCatGuild:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    guildWelcomeErrorMessage:SetPoint("TOPLEFT", 11, startPosition)
+    guildWelcomeErrorMessage:SetText("[Message not saved] Invalid message. Message length must be at least 1 character.")
+    guildWelcomeErrorMessage:SetTextColor(1, 0, 0)
+    guildWelcomeErrorMessage:Hide()
 
     -- events
     customGuildMessageCheckbox:SetScript("OnClick", function(self)
@@ -845,9 +845,178 @@ function CreateCustomMessagesSettingsSubcategory(frame)
         messageEditBoxMilestoneMessage:SetText("")
         messageEditBoxMilestoneLvl:SetText("")
     end)
-    
-     
+end
 
+function CreateGuildWelcomeSettingsSubcategory(frame)
+    fsubCatGuildWelcome = CreateFrame("Frame")
+    fsubCatGWPanel, settingsGWLayout = Settings.RegisterCanvasLayoutSubcategory(frame, fsubCatGuildWelcome, "Guild Welcome")
+
+    CreateTitleCategory(fsubCatGuildWelcome, "AutoGrats - Guild welcome")
+
+    local position = -50
+
+    local enableGuildWelcomeCheckbox = createSettingsCheckbox(fsubCatGuildWelcome, position, "Enable guild welcome messages", "useGuildWelcomeMessage")
+    position = position - 25
+    
+    local warningText = fsubCatGuildWelcome:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    warningText:SetPoint("TOPLEFT", 10, position)
+    warningText:SetTextColor(1,1,1)
+    warningText:SetText("Warning: Enabling/Disabling this feature requires a reload to take effect.")
+    warningText:SetTextColor(1, 0, 0)
+
+    position = position-25
+
+    createSettingsOptionTitle(fsubCatGuildWelcome, position, "Custom mesages")
+    position = position-25
+
+    local enableWelcomeCustomMessagesCheckbox = createSettingsCheckbox(fsubCatGuildWelcome, position, "Enable custom welcome messages", "useCustomGuildWelcomeMessages")
+    position = position-30
+
+    local customMessageEditBox = CreateSettingsEditBox(fsubCatGuildWelcome, position, "Custom message")
+    customMessageEditBox:SetText(autoGratsSavedData.guildWelcomeMessage)
+    customMessageEditBox:SetCursorPosition(0)
+    position = position - 40
+
+    local customMessageEditBoxTip = CreateTipMessage(fsubCatGuildWelcome, position, "|cffedcd4eTip:|cffffffff You can write |cff00ff00[username]|cffffffff to include username in your welcome message !")
+    position = position - 15
+
+    local addCustomMessageButton = CreateButton(fsubCatGuildWelcome, position, "Save")
+    position = position-40
+
+    local randomWelcomeMessageTitle = createSettingsOptionTitle(fsubCatGuildWelcome, position, "Random welcome messages")
+    position = position - 25
+
+    local enableGuildRandomMessageWelcomeCheckbox = createSettingsCheckbox(fsubCatGuildWelcome, position, "Enable guild random welcome messages", "useRandomWelcomeMessage")
+    position = position - 30
+
+    CreateTipMessage(fsubCatGuildWelcome, position, "|cffedcd4eTip:|cffffffff If enabled, this will always replace other welcome messages.")
+    position = position - 30
+
+    local randomCustomMessageEditBox = CreateSettingsEditBox(fsubCatGuildWelcome, position, "Add custom message")
+    position = position - 40
+
+    local customMessageEditBoxTip = CreateTipMessage(fsubCatGuildWelcome, position, "|cffedcd4eTip:|cffffffff You can write |cff00ff00[username]|cffffffff to include username in your welcome message !")
+    position = position - 20
+
+    local addRandomWelcomeMsgButton = CreateButton(fsubCatGuildWelcome, position, "Add message")
+    addRandomWelcomeMsgButton:SetWidth(125)
+    position = position - 45
+
+    local removeRandomMessageDropdown = CreateDropDownElement(fsubCatGuildWelcome, position, "Remove a message")
+    UIDropDownMenu_SetWidth(removeRandomMessageDropdown, 250)
+
+    -- BUTTON SCRIPTS
+    addCustomMessageButton:SetScript("OnClick", function(self, button, down)
+        local editBxText = customMessageEditBox:GetText()
+        if(string.len(editBxText) >= 1) then
+            autoGratsSavedData.guildWelcomeMessage = editBxText
+        end
+
+        customMessageEditBox:ClearFocus()
+    end)
+
+    addRandomWelcomeMsgButton:SetScript("OnClick", function(self, button, down)
+        local editBoxTxt = randomCustomMessageEditBox:GetText()
+        if(string.len(editBoxTxt) >= 1 ) then
+            table.insert(autoGratsSavedData.customGuildWelcomeMessages, editBoxTxt)
+        end
+        randomCustomMessageEditBox:ClearFocus()
+        randomCustomMessageEditBox:SetText("")
+    end)
+
+    -- DROPDOWN SCRIPTS
+    local function removeWelcomeCustomMessage(self)
+        table.remove(autoGratsSavedData.customGuildWelcomeMessages, self:GetID())
+    end
+
+    local function initRandomWelcomeMessageDropdown(self)
+        local info = UIDropDownMenu_CreateInfo()
+        for id, msg in pairs(autoGratsSavedData.customGuildWelcomeMessages) do
+            info = UIDropDownMenu_CreateInfo()
+            info.text = msg
+            info.value = id
+            info.func = removeWelcomeCustomMessage
+            UIDropDownMenu_AddButton(info)
+        end
+    end
+
+    UIDropDownMenu_Initialize(removeRandomMessageDropdown, initRandomWelcomeMessageDropdown)
+end
+
+function CreateDropDownElement(settingsFrame, position, dropdownTitle)
+    local dropdwnTitle = settingsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    dropdwnTitle:SetPoint("TOPLEFT", 10, position + 5)
+    dropdwnTitle:SetText(dropdownTitle)
+    
+    local dropDwn = CreateFrame("Frame", nil, settingsFrame, "UIDropDownMenuTemplate")
+    dropDwn:SetPoint("TOPLEFT", 0, position - 10)
+
+    return dropDwn
+end
+
+function CreateButton(settingsFrame, position, text)
+    local btn = CreateFrame("Button", nil, settingsFrame, "UIPanelButtonTemplate")
+    btn:SetPoint("TOPLEFT", 5, position)
+    btn:SetSize(75, 25)
+    btn:SetText(text)
+
+    return btn
+end
+
+function CreateTipMessage(settingsFrame, position, text)
+    local editBoxTip = settingsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    editBoxTip:SetPoint("TOPLEFT", 11, position)
+    editBoxTip:SetTextColor(1,1,1)
+    editBoxTip:SetText(text)
+
+    return editBoxTip
+end
+
+function CreateSettingsEditBox(settingsFrame, position, title)
+    local editBoxTitle = settingsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    editBoxTitle:SetPoint("TOPLEFT", 11, position)
+    editBoxTitle:SetText(title)
+
+    local editBox = CreateFrame("EditBox", nil, settingsFrame, "InputBoxTemplate")
+    editBox:SetMultiLine(false)
+    editBox:SetAutoFocus(false)
+    editBox:SetWidth(250)
+    editBox:SetHeight(50)
+    editBox:SetFontObject(ChatFontNormal)
+    editBox:EnableMouse(true)
+    editBox:SetPoint("TOPLEFT", 11, position)
+
+    return editBox
+end
+
+function createSettingsOptionTitle(settingsFrame, position, text)
+    local title = settingsFrame:CreateFontString("Autograts", nil, "GameFontNormalLarge")
+    title:SetPoint("TOPLEFT", 10, position)
+    title:SetText(text)
+
+    return title
+end
+
+function createSettingsCheckbox(settingsFrame, position, text, settingsVariableName)
+    local checkbox = CreateFrame("CheckButton", nil, settingsFrame, "InterfaceOptionsCheckButtonTemplate")
+    checkbox:SetPoint("TOPLEFT", 10, position)
+    checkbox.text = checkbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    checkbox.text:SetPoint("LEFT", checkbox, "RIGHT", 5, 0)
+    checkbox.text:SetText(text)
+    checkbox:SetChecked(autoGratsSavedData[settingsVariableName])
+
+
+    checkbox:SetScript("OnClick", function (self)
+        local isChecked = self:GetChecked()
+
+        if isChecked then
+            autoGratsSavedData[settingsVariableName] = true
+        else
+            autoGratsSavedData[settingsVariableName] = false
+        end
+    end)
+
+    return checkbox
 end
 
 function CreateTitleCategory(frame, titleText)
@@ -893,6 +1062,8 @@ function CreateSettingsPage()
     AutoGrats_PartySettingsCategory = CreatePartySettingsSubcategory(autograts_settings_category)
     CreateGuildSettingsSubcategory(autograts_settings_category)
     CreateCustomMessagesSettingsSubcategory(autograts_settings_category)
+    CreateGuildWelcomeSettingsSubcategory(autograts_settings_category)
+
 
 end
 

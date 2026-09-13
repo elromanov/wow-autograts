@@ -46,9 +46,23 @@ function AutoGrats.WelcomeGuildMember(name)
         or name == FullPlayerName(UnitName("player")) then return end
     local history = autoGratsSavedData.guildWelcomeHistory[key]
     if not history or history[name] then return end
-    local message = autoGratsSavedData.guildWelcomeMessage or "Welcome to the guild, [username]!"
+
+    local message = ""
+    if autoGratsSavedData.useRandomWelcomeMessage == true and #autoGratsSavedData.customGuildWelcomeMessages > 0 then
+        local randomIndex = math.random(1, #autoGratsSavedData.customGuildWelcomeMessages)
+        local randomWelcomeMessage = autoGratsSavedData.customGuildWelcomeMessages[randomIndex]
+        message = randomWelcomeMessage
+    elseif autoGratsSavedData.useCustomGuildWelcomeMessages == true then
+        message = autoGratsSavedData.guildWelcomeMessage
+    else
+        message = autoGratsSavedData.defaultGuildWelcomeMessage
+    end
+
     history[name] = true
-    SendChatMessage(message:gsub("%[username%]", function() return name:match("^[^%-]+") end), "GUILD")
+
+    C_Timer.After(8, function()
+        SendChatMessage(message:gsub("%[username%]", function() return name:match("^[^%-]+") end), "GUILD")
+    end)
 end
 
 function GetGuildMembers()

@@ -3,7 +3,7 @@
 ## Title: AutoGrats
 ## Notes: Will automatically congratulate party members when they level up
 ## Author: Romanov
-## Version: 4.0.5
+## Version: 5.0.0
 ## SavedVariables: autoGratsSavedData
 ## Category: Chat
 ## Category-deDE: Chat

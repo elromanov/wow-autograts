@@ -60,7 +60,7 @@ function AutoGrats.WelcomeGuildMember(name)
 
     history[name] = true
 
-    C_Timer.After(8, function()
+    C_Timer.After(12, function()
         SendChatMessage(message:gsub("%[username%]", function() return name:match("^[^%-]+") end), "GUILD")
     end)
 end

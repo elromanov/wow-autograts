@@ -21,7 +21,6 @@ autogratsFrame:RegisterEvent("GROUP_ROSTER_UPDATE")
 autogratsFrame:RegisterEvent("UNIT_LEVEL")
 autogratsFrame:RegisterEvent("PLAYER_LOGOUT")
 autogratsFrame:RegisterEvent("GUILD_ROSTER_UPDATE")
--- autogratsFrame:RegisterEvent("CHAT_MSG_GUILD")
 
 if not autoGratsSavedData then
     autoGratsSavedData = {}

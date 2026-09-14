@@ -1,22 +1,35 @@
 # Description
 
-AutoGrats is a handy World of Warcraft Classic addon designed to make leveling up in a party an even more enjoyable experience. This addon automatically congratulates party members when they level up. Say goodbye to manual grats and hello to automated celebrations! When a fellow party member reaches a new level, AutoGrats sends cheerful congratulations both in the party chat and the local yell chat, making the journey through Azeroth more social and exciting. Stay in high spirits as you level up together with the AutoGrats addon.
+AutoGrats is a World of Warcraft Classic addon designed to make leveling and guild life a little more social. It automatically congratulates party and guild members when they level up, and can welcome new members when they join your guild.
+
+Say goodbye to manually typing "gz" and hello to automated celebrations! AutoGrats handles the repetitive stuff while keeping your party and guild interactions more fun.
 
 # Last update
-Addon is now compliant with the latest version of World of Warcraft API. Rewrote the code to work with the new API and fixed some bugs that were present in the previous version.
+
+Added automatic guild welcome messages.
+
+You can now configure a custom base welcome message, as well as a list of additional welcome messages. When a new member joins the guild, AutoGrats can randomly select a message from your configured list, making guild welcomes less repetitive.
 
 # Features
 
-- Automatically congratulates party members on level-up achievements.
-- Sends congratulatory messages in both party chat and local yell chat.
-- Enhances the sense of community and camaraderie within your party.
-- Lightweight and easy to use—just install and let the addon handle the celebrations.
-- Automated Level-Up Congrats: Automatically celebrate your party members' level-up achievements.
-- Customizable Messages: Personalize your congratulatory messages in the addon settings page accessible in game options (addons section -> AutoGrats) or by using /gz or /autograts commands
-- Enable/Disable a sound notification when a party member levels up.
+* **Automatic Party Level-Up Congrats:** Automatically congratulates party members when they level up.
 
+* **Automatic Guild Level-Up Congrats:** Automatically congratulates guild members when they reach configured level milestones.
+
+* **Automatic Guild Welcomes:** Automatically sends a welcome message when a new member joins your guild.
+
+* **Customizable Messages:** Personalize your messages from the addon settings page, accessible through the in-game options (AddOns -> AutoGrats) or with the `/gz` and `/autograts` commands.
+
+* **Random Messages:** Create a list of custom messages for party grats, guild grats, and guild welcomes. AutoGrats randomly selects a message from the corresponding list, keeping interactions varied and less repetitive.
+
+* **Custom Base Messages:** Configure a base custom message for each supported feature, giving you full control over how AutoGrats communicates with your party and guild.
+
+* **Sound Notifications:** Enable or disable a sound notification when a party member levels up.
+
+* **Lightweight & Easy to Use:** Install the addon, configure your preferences, and let AutoGrats handle the celebrations.
 
 ---
-Celebrate your victories together with AutoGrats and share the joy of leveling up in World of Warcraft Classic. Download now and start the party!
 
-### Last Updated: 14th of January, 2025.
+Celebrate your victories together with AutoGrats, whether you're leveling with your party, congratulating guild members, or welcoming someone new to the guild!
+
+### Last Updated: 14th of September, 2026.

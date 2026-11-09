@@ -5,8 +5,22 @@ DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[AutoGrats] Loading guild module...")
 local autograts_guild_delayed_messages = {}
 AutoGrats.GuildDelayedMessages = AutoGrats.GuildDelayedMessages or {}
 
+local function IsSecret(value)
+    return issecretvalue and issecretvalue(value)
+end
+
+local function GuildChatRestricted()
+    if InCombatLockdown() then return true end
+    if C_RestrictedActions and C_RestrictedActions.GetAddOnRestrictionState
+        and Enum and Enum.AddOnRestrictionType and Enum.AddOnRestrictionState then
+        return C_RestrictedActions.GetAddOnRestrictionState(Enum.AddOnRestrictionType.Chat)
+            ~= Enum.AddOnRestrictionState.Inactive
+    end
+    return false
+end
+
 function SendDelayedGuildMessages(msg, channel)
-    if InCombatLockdown() then
+    if GuildChatRestricted() then
         table.insert(autograts_guild_delayed_messages, {msg = msg, channel = channel})
     else
         SendChatMessage(msg, channel)
@@ -14,6 +28,7 @@ function SendDelayedGuildMessages(msg, channel)
 end
 
 function ProcessAGDelayedMessages()
+    if GuildChatRestricted() then return end
     for _, message in ipairs(autograts_guild_delayed_messages) do
         SendChatMessage(message.msg, message.channel)
     end
@@ -22,6 +37,7 @@ end
 
 local rosterCheckPending = false
 local currentGuildKey
+local currentPlayerRosterName
 
 local function FullPlayerName(name)
     local player, realm = name:match("^([^%-]+)%-(.+)$")
@@ -43,7 +59,7 @@ function AutoGrats.WelcomeGuildMember(name)
     if not key or key ~= currentGuildKey then return end
     name = FullPlayerName(name)
     if not autoGratsGuildPlayerTracker[name]
-        or name == FullPlayerName(UnitName("player")) then return end
+        or name == currentPlayerRosterName then return end
     local history = autoGratsSavedData.guildWelcomeHistory[key]
     if not history or history[name] then return end
 
@@ -61,22 +77,32 @@ function AutoGrats.WelcomeGuildMember(name)
     history[name] = true
 
     C_Timer.After(12, function()
-        SendChatMessage(message:gsub("%[username%]", function() return name:match("^[^%-]+") end), "GUILD")
+        if GuildKey() ~= key or not autoGratsGuildPlayerTracker[name] then return end
+        SendDelayedGuildMessages(message:gsub("%[username%]", function() return name:match("^[^%-]+") end), "GUILD")
     end)
 end
 
 function GetGuildMembers()
     local members = {}
+    local playerGUID = UnitGUID("player")
+    if IsSecret(playerGUID) then return nil end
+    local playerRosterName
     local count = GetNumGuildMembers()
     if count == 0 then return nil end
     for i = 1, count do
         local name, _, _, level = GetGuildRosterInfo(i)
+        local guid = select(17, GetGuildRosterInfo(i))
         -- Never initialize or diff an incomplete cache.
+        if IsSecret(name) or IsSecret(level) or IsSecret(guid) then return nil end
         if not name or not level or level <= 0 then return nil end
-        members[FullPlayerName(name)] = level
+        local fullName = FullPlayerName(name)
+        members[fullName] = level
+        -- Forever's roster display name can differ from UnitName("player").
+        -- GUID equality identifies us without guessing from a shared first name.
+        if playerGUID and guid == playerGUID then playerRosterName = fullName end
     end
-    if not members[FullPlayerName(UnitName("player"))] then return nil end
-    return members
+    if not playerRosterName then return nil end
+    return members, playerRosterName
 end
 
 local function CheckGuildRoster()
@@ -85,13 +111,16 @@ local function CheckGuildRoster()
     if key ~= currentGuildKey then
         currentGuildKey = key
         guildRosterInitialized = false
+        currentPlayerRosterName = nil
+        autograts_guild_delayed_messages = {}
         AutoGrats.guildPlayerTracker = {}
         autoGratsGuildPlayerTracker = AutoGrats.guildPlayerTracker
     end
     if not key then return end
     if not InCombatLockdown() then
-        local _guildMembers = GetGuildMembers()
+        local _guildMembers, player_name = GetGuildMembers()
         if not _guildMembers then return end
+        currentPlayerRosterName = player_name
         local history = autoGratsSavedData.guildWelcomeHistory
         history[key] = history[key] or {}
         -- A welcome belongs to the current membership, not to the player forever.
@@ -110,7 +139,6 @@ local function CheckGuildRoster()
             guildRosterInitialized = true
             return
         end
-        local player_name = FullPlayerName(UnitName("player"))
         for name, level in pairs(_guildMembers) do
             if not previous[name] and name ~= player_name then
                 AutoGrats.WelcomeGuildMember(name)
@@ -190,20 +218,30 @@ function handleGuildRosterUpdate()
 end
 
 -- Function to start the timer
+local guildRosterTicker
+local function RefreshGuildRoster()
+    if not addon_loaded then return end
+    -- Clear an old guild snapshot/queue before processing pending messages.
+    CheckGuildRoster()
+    if IsInGuild() and not InCombatLockdown() then C_GuildInfo.GuildRoster() end
+    ProcessAGDelayedMessages()
+end
+
 function StartGuildRosterCheckTimer()
-    C_Timer.NewTicker(60, function()
-        if InCombatLockdown() or PVEFrame:IsShown() then return end
-        handleGuildRosterUpdate()
-    end)
+    if guildRosterTicker then return end
+    guildRosterTicker = C_Timer.NewTicker(60, RefreshGuildRoster)
 end
 
 local AG_guild_eventFrame = CreateFrame("Frame")
 AG_guild_eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED") -- Combat ends
+AG_guild_eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+AG_guild_eventFrame:RegisterEvent("PLAYER_GUILD_UPDATE")
+if C_RestrictedActions and C_RestrictedActions.GetAddOnRestrictionState then
+    AG_guild_eventFrame:RegisterEvent("ADDON_RESTRICTION_STATE_CHANGED")
+end
 AG_guild_eventFrame:SetScript("OnEvent", function(_, event)
-    if event == "PLAYER_REGEN_ENABLED" then
-        ProcessAGDelayedMessages()
-        handleGuildRosterUpdate()
-    end
+    -- Defer until restriction-state transitions have completed.
+    C_Timer.After(1, RefreshGuildRoster)
 end)
 
 DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00[AutoGrats] Guild module loaded.")

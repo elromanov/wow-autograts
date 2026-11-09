@@ -98,38 +98,14 @@ autogratsFrame:SetScript("OnEvent", function(self, event, arg1)
         DEFAULT_CHAT_FRAME:AddMessage("|cffedcd4e[AutoGrats] Settings are available in game options, you can also access AutoGrats settings with |cff00ff00/gz |cffedcd4eand |cff00ff00/autograts |cffedcd4ecommands")
         
         addon_loaded = true
+        StartGuildRosterCheckTimer()
         handleGuildRosterUpdate()
-    elseif event == "UNIT_LEVEL" then
-        local unitName = UnitName(arg1)
-        local unitIsPlayer = UnitIsPlayer(arg1)
-
-        if unitIsPlayer and UnitInParty(arg1) and unitName ~= UnitName("player") then
-            local unitLevel = UnitLevel(unitName)
-            if unitLevel > 0 then
-                CheckPlayerLevelDelayed(unitName)
-            end
-        end
-    elseif event == "GROUP_ROSTER_UPDATE" then
-        local groupCount = GetNumGroupMembers()
-
-        if groupCount == 0 then
-            autoGratsPlayerTracker = {}
-        else
-            for i = 1, groupCount do
-                local unitName = UnitName("party" .. i)
-                local unitLevel = UnitLevel("party" .. i)
-
-                if unitName ~= UnitName("player") and unitLevel > 0 then
-                    if autoGratsPlayerTracker[unitName] then
-                        CheckPlayerLevelDelayed(unitName)
-                    else
-                        autoGratsPlayerTracker[unitName] = unitLevel
-                    end
-                end
-            end
-        end
-
-        groupMembersCount = groupCount
+    elseif event == "UNIT_LEVEL" or event == "GROUP_ROSTER_UPDATE"
+        or event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_REGEN_ENABLED"
+        or event == "ADDON_RESTRICTION_STATE_CHANGED" then
+        -- Events can refer to targettarget, whose identity may be secret.
+        -- Read the canonical party slots instead of comparing character names.
+        AutoGrats.RefreshPartyRoster()
 
     elseif event == "GUILD_ROSTER_UPDATE" then
         handleGuildRosterUpdate()
